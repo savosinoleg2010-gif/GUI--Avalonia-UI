@@ -1,0 +1,155 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Разработка__GUI_приложений_с_Avalonia_UI"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="700"
+        x:Class="Разработка__GUI_приложений_с_Avalonia_UI.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="PizzaOrder: Иванов"
+        Width="450" Height="700"
+        CanResize="False"
+        Background="#FFF8F9FA">
+
+    <Window.Styles>
+        <Style Selector="Border.section">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#E0E0E0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="BoxShadow" Value="0 2 8 0 #20000000"/>
+        </Style>
+        <Style Selector="TextBlock.sectionTitle">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#FF6B35"/>
+            <Setter Property="Margin" Value="0,0,0,12"/>
+        </Style>
+        <Style Selector="RadioButton.pizzaOption">
+            <Setter Property="Margin" Value="0,8,0,0"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="#333"/>
+        </Style>
+        <Style Selector="CheckBox.toppingOption">
+            <Setter Property="Margin" Value="0,8,0,0"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="#333"/>
+        </Style>
+        <Style Selector="Button.confirmButton">
+            <Setter Property="Background" Value="#FF6B35"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="30,12"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+    </Window.Styles>
+
+    <ScrollViewer>
+        <StackPanel Margin="25" Spacing="20">
+            
+            <!-- Заголовок -->
+            <TextBlock Text="🍕 Форма заказа пиццы" 
+                       FontSize="24" 
+                       FontWeight="Bold" 
+                       Foreground="#FF6B35"
+                       HorizontalAlignment="Center"
+                       Margin="0,10,0,20"/>
+
+            <!-- Блок "Клиент" -->
+            <Border Classes="section">
+                <StackPanel Spacing="12">
+                    <TextBlock Classes="sectionTitle">👤 Клиент</TextBlock>
+                    <TextBox Watermark="Введите ваше имя" 
+                             Text="{Binding ClientName}"
+                             CornerRadius="6"
+                             Padding="12,10"
+                             BorderBrush="#DDD"/>
+                    <TextBox Watermark="Введите телефон" 
+                             Text="{Binding ClientPhone}"
+                             CornerRadius="6"
+                             Padding="12,10"
+                             BorderBrush="#DDD"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Блок "Выбор пиццы" -->
+            <Border Classes="section">
+                <StackPanel Spacing="12">
+                    <TextBlock Classes="sectionTitle">🍕 Выбор пиццы</TextBlock>
+                    <RadioButton Content="Маргарита — 450 ₽" 
+                                 GroupName="PizzaType"
+                                 Classes="pizzaOption"
+                                 IsChecked="{Binding IsMargheritaSelected}"/>
+                    <RadioButton Content="Пепперони — 550 ₽" 
+                                 GroupName="PizzaType"
+                                 Classes="pizzaOption"
+                                 IsChecked="{Binding IsPepperoniSelected}"/>
+                    <RadioButton Content="Гавайская — 500 ₽" 
+                                 GroupName="PizzaType"
+                                 Classes="pizzaOption"
+                                 IsChecked="{Binding IsHawaiianSelected}"/>
+                    <RadioButton Content="Четыре сыра — 600 ₽" 
+                                 GroupName="PizzaType"
+                                 Classes="pizzaOption"
+                                 IsChecked="{Binding IsFourCheeseSelected}"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Блок "Добавки" -->
+            <Border Classes="section">
+                <StackPanel Spacing="12">
+                    <TextBlock Classes="sectionTitle">🥗 Добавки</TextBlock>
+                    <CheckBox Content="Сыр (+50 ₽)" 
+                              Classes="toppingOption"
+                              IsChecked="{Binding ExtraCheese}"/>
+                    <CheckBox Content="Грибы (+70 ₽)" 
+                              Classes="toppingOption"
+                              IsChecked="{Binding Mushrooms}"/>
+                    <CheckBox Content="Оливки (+60 ₽)" 
+                              Classes="toppingOption"
+                              IsChecked="{Binding Olives}"/>
+                    <CheckBox Content="Халапеньо (+50 ₽)" 
+                              Classes="toppingOption"
+                              IsChecked="{Binding Jalapeno}"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Блок "Количество" -->
+            <Border Classes="section">
+                <StackPanel Spacing="12">
+                    <TextBlock Classes="sectionTitle">🔢 Количество</TextBlock>
+                    <NumericUpDown Minimum="1" 
+                                   Maximum="10" 
+                                   Value="{Binding Quantity}"
+                                   FormatString="{}{0} шт."
+                                   CornerRadius="6"
+                                   Padding="12,10"
+                                   FontSize="14"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Блок "Итог" -->
+            <Border Classes="section" Background="#FFF0F8E8" BorderBrush="#C8E6C9">
+                <StackPanel Spacing="15">
+                    <TextBlock Classes="sectionTitle" Foreground="#4CAF50">💰 Итог</TextBlock>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="8">
+                        <TextBlock Text="Сумма заказа:" FontSize="18" Foreground="#555"/>
+                        <TextBlock Text="{Binding TotalAmount}" 
+                                   FontSize="24" 
+                                   FontWeight="Bold" 
+                                   Foreground="#4CAF50"/>
+                        <TextBlock Text="₽" FontSize="20" Foreground="#4CAF50"/>
+                    </StackPanel>
+                    <Button Content="✅ Подтвердить заказ"
+                            Classes="confirmButton"
+                            HorizontalAlignment="Center"
+                            Command="{Binding ConfirmOrderCommand}"/>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</Window>
